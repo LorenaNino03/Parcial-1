@@ -15,3 +15,17 @@ Respuesta: En este caso el mas eficiente seria el protocolo TCP debido a que est
 Respuesta: El protocolo de la suite que llena esta tabla es el del ARP su funcion principal es traducir una dirección IP a una dirección MAC para evitar la repeticion de solicitudes de conectividad. 
 
 <img width="1312" height="807" alt="image" src="https://github.com/user-attachments/assets/17e50fa2-c1c1-48f5-bd56-6fbd424783ef" />
+
+# d) Mencionar dos diferencias clave entre las arquitecturas SNMPv2c y SNMPv3. Enfocarse en los aspectos de seguridad y el tipo de mensajes que manejan.
+Respuesta: 
+En temas de seguridad SNMPv3 es mas segura SNMPv2c, ya que cuenta con una autenticación como lo es SHA o MD5, con un cifrado bien sea AES o  DES 
+También en temas de autenticación SNMPv2 cuenta con solamente la opción de texto plano para dicha autentica,para SNMPv3 utiliza un protocolo como lo es: HMAC, MD5 o GMAC-SHA, para un mayor seguridad para usuarios y contraseñas.
+
+# e) Define qué es un OID y cuál es su relación con la MIB. Si un administrador quiere saber la cantidad de bytes que ha recibido una interfaz de red, ¿qué operación SNMP (Get, Set, Trap) debe utilizar y por qué no sería adecuado usar un Trap para esto?
+Respuesta:
+Un OID es un identificador unico unico que se encuentra alojado dentro de un MIB (Base de información general)
+Al utilizar Get y Set el administrador tomara el rol de gestor en el MIB, el administrador no debe utilizar el Trap ya que dicha solicitud la utiliza el agente para solicitar si sucedio un reinicio de un equipo o una caida de un puerto. 
+
+# PUNTO DOS 
+
+Identificar y explicar cada uno de los campos de la cabecera Ethernet. ¿Qué significa el valor 0x0800 en el campo "Tipo"?
