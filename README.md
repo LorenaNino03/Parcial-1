@@ -27,5 +27,20 @@ Un OID es un identificador unico unico que se encuentra alojado dentro de un MIB
 Al utilizar Get y Set el administrador tomara el rol de gestor en el MIB, el administrador no debe utilizar el Trap ya que dicha solicitud la utiliza el agente para solicitar si sucedio un reinicio de un equipo o una caida de un puerto. 
 
 # PUNTO DOS 
+Análisis de Captura con Wireshark
 
-Identificar y explicar cada uno de los campos de la cabecera Ethernet. ¿Qué significa el valor 0x0800 en el campo "Tipo"?
+# a) Identificar y explicar cada uno de los campos de la cabecera Ethernet. ¿Qué significa el valor 0x0800 en el campo "Tipo"?
+Respuesta: Cuando habla del valor 0x0800 nos esta indicando que el paquete transportado en el interior de la trama es un paquete IPv4 sin ello la tarjeta de red no sabria a que entregarle los datos.
+
+# b) En la cabecera IPv4, ¿qué significan los campos Protocolo y TTL? ¿Por qué es importante el TTL en red?
+Respuesta: Los campos protocolo significa el tipo de protocolo de capa superior está contenido dentro del paquete IP.Es decir, le dice al sistema operativo qué debe hacer con los datos cuando el paquete llega al destino, en la imagen se oberva el valor 6 corresponde a TCP (Transmission Control Protocol), en resumen indica qué tipo de datos transporta el paquete (TCP, UDP, ICMP, etc.).
+El TTL indica el número máximo de saltos que un paquete puede atravesar antes de ser descartado. (en este caso, 128) que disminuye en 1 cada vez que el paquete atraviesa un router.
+
+# C) En la cabecera TCP, explicar la función de los flags ACK y PSH. ¿Qué indica el "Puerto Destino: 80" sobre el servicio al que se intenta acceder?
+Respuesta: 
+cuando aparece la funcion de ACK indica que recibio bien el paquete, que el campo de número de confirmación es válido.
+Y al tener el PSH activo este informa al receptor que debe entregar los datos inmediatamente a la aplicación, sin esperar a llenar el buffer.
+El puerto destino 80 indica que corresponde al servicio HTTP por lo que el paquete esta dirigido a un servidor web, pero se debe tener en cuenta que este puerto no es seguro como el 443 HTTPS.
+
+# d) Si este mismo paquete se enviara usando IPv6, ¿qué cabecera de IPv6 reemplazaría a la cabecera IPv4 mostrada y cuál sería una mejora notable en su procesamiento por parte de los routers?
+
