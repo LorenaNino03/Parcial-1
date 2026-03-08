@@ -150,13 +150,18 @@ El TTL (Time To Live). Evita bucles infinitos; cada router resta 1 al valor; si 
 GitHub envía mensajes TCP ACK para confirmar la recepción de cada segmento. Si no llega un ACK, el cliente asume "pérdida de paquetes" y reenvía los datos.
 # Cierre de Conexión: Se realiza mediante un Four-way Handshake: 
 -Cliente envía FIN. 
+
 -Servidor envía ACK. 
--Servidor envía su propio FIN. 
+
+-Servidor envía su propio FIN.
+
 -Cliente envía ACK final. 
 
 # Gestión con SNMP: Como administrador, observaría en el router: 
 -ifOutOctets (Bytes transmitidos). 
+
 -ifOutDiscards (Paquetes descartados por congestión). 
+
 -Versión de SNMP: Usaría SNMPv3, ya que es la única versión que soporta cifrado y autenticación fuerte. 
 
 
