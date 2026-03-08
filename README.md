@@ -82,6 +82,81 @@ Respuesta: Se genera cuando el agente SNMP del router recibe un mensaje (PDU) co
 ## Paso 1: Verificación de conectividad y resolución de nombres 
 Antes de ejecutar el git push, debemos asegurar que el camino hacia GitHub esté abierto. 
 
-Conectividad IP: Se usaría el comando ping github.com. 
+# Conectividad IP: Se usaría el comando ping github.com. 
 <img width="729" height="261" alt="image" src="https://github.com/user-attachments/assets/706ba537-fe59-48a9-b23d-982e893c0610" />
+
+# Capa OSI: Capa 3 (Red). 
+# Protocolo: ICMP (Internet Control Message Protocol). Verifica la 
+<img width="740" height="139" alt="image" src="https://github.com/user-attachments/assets/16120069-5376-4698-a85b-34a3abc2a502" />
+alcanzabilidad de un hos
+
+# Resolución de Nombres (DNS): 
+El equipo obtiene la IP mediante el protocolo DNS (Domain Name System). 
+# Proceso: 
+El cliente envía una consulta UDP al puerto 53 de un servidor DNS. 
+# Capa OSI: 
+Capa 7 (Aplicación). 
+# Diagnóstico: 
+Si falla, se usaría nslookup github.com o dig github.com. 
+<img width="458" height="187" alt="image" src="https://github.com/user-attachments/assets/b0610f15-12f7-49c6-830c-25ee9fd2915c" />
+
+# Teletráfico (Latencia y Jitter): 
+Si el ping es exitoso pero variable, la métrica afectada es el Jitter (variación de la latencia). 
+# Impacto: 
+Un jitter alto puede causar que los paquetes lleguen en desorden, obligando a TCP a reordenarlos, lo que disminuye el Throughput efectivo y hace que el git push se sienta "pesado" o lento. 
+
+# Paso 2: Establecimiento de la conexión para el Push 
+Git suele utilizar HTTPS (puerto 443) para subir cambios. 
+
+Protocolo de Transporte: Se utiliza TCP 
+Three-way Handshake: 
+# 1. SYN: El cliente envía una solicitud de sincronización.  
+# 2. SYN-ACK: El servidor responde confirmando y solicitando sincronización.  
+# 3. ACK: El cliente confirma. Conexión establecida. 
+Herramienta de Monitoreo: Se usaría Wireshark. 
+Filtro: ip.addr == [IP_de_GitHub] && tcp.port == 443. 
+<img width="435" height="126" alt="image" src="https://github.com/user-attachments/assets/52e229de-49f6-4548-9571-402338b32241" />
+
+# Puertos y Capas: 
+Puerto Origen: Un puerto aleatorio efímero (ej. 51234). 
+Puerto Destino: 443 (HTTPS). 
+Capa OSI: Capa 4 (Transporte) gestiona estos puertos. 
+
+# Paso 3: Encapsulamiento y enrutamiento de los datos 
+
+Aquí es donde los archivos del commit se empaquetan para el viaje. 
+# Proceso de Encapsulamiento: 
+# Aplicación: 
+Datos (Mensaje del commit + archivos). Unidad: Datos/Mensaje. 
+# Transporte: 
+Se añade cabecera TCP. Unidad: Segmento. 
+# Red: 
+Se añade cabecera IP (Origen/Destino). Unidad: Paquete. 
+# Enlace: 
+Se añade cabecera Ethernet (MAC). Unidad: Trama. 
+# Física: 
+Los bits viajan por el cable/aire. 
+
+# Congestión y Pérdida:
+Si un router descarta paquetes, el git push se ralentiza. TCP activaría el mecanismo de Retransmisión (Fast Retransmit) y el control de congestión (reduciendo la ventana de transmisión). 
+# Comando de diagnóstico: 
+tracert github.com (Windows) para ver en qué salto ocurre la pérdida.
+# Campo IP crítico: 
+El TTL (Time To Live). Evita bucles infinitos; cada router resta 1 al valor; si llega a 0, el paquete se descarta
+
+# Paso 4: Confirmación y fin de la comunicación 
+
+# Confirmación: 
+GitHub envía mensajes TCP ACK para confirmar la recepción de cada segmento. Si no llega un ACK, el cliente asume "pérdida de paquetes" y reenvía los datos.
+# Cierre de Conexión: Se realiza mediante un Four-way Handshake: 
+-Cliente envía FIN. 
+-Servidor envía ACK. 
+-Servidor envía su propio FIN. 
+-Cliente envía ACK final. 
+
+# Gestión con SNMP: Como administrador, observaría en el router: 
+-ifOutOctets (Bytes transmitidos). 
+-ifOutDiscards (Paquetes descartados por congestión). 
+-Versión de SNMP: Usaría SNMPv3, ya que es la única versión que soporta cifrado y autenticación fuerte. 
+
 
